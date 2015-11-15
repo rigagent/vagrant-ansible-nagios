@@ -1,0 +1,23 @@
+---
+# SSL cert creation
+
+- name: SSL module connection
+  shell: a2enmod ssl
+  notify: restart apache
+
+- name: Create folder for SSL cert keys
+  shell: mkdir /etc/apache2/ssl
+
+- name: Create self-signed SSL cert
+  command: openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/apache2/ssl/apache.key -out /etc/apache2/ssl/apache.crt -subj "/C=US/ST=Oregon/L=Portland/O=IT/CN=''"
+
+- name: Modify default-ssl.conf
+  shell: cp /vagrant/ssl/default-ssl.conf /etc/apache2/sites-available/default-ssl.conf
+
+- name: HTTP proxy module connection
+  shell: a2enmod proxy_http
+  notify: restart apache
+
+- name: New virtual host connection
+  shell: a2ensite default-ssl.conf
+  notify: restart apache

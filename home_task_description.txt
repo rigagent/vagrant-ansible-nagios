@@ -1,0 +1,39 @@
+# Goal
+
+Set up environment on a Vagrant box VM with a monitoring system, a web
+server and a simple application. Monitor certain application parameter
+with alerting enabled when parameter exceeds certain threshold.
+
+
+# Tasks
+
+1. Prepare Vagrant box with Linux server installed. Provision server
+    with configuration management tool and automate whole setup as much
+    as possible. All additional setup that is required on top of minimal
+    Linux distribution (packages, services, directories, settings)
+    should be described as code (configuration management).
+2. Create a Puppet module or Chef recipe (or other encapsulation
+    concept if other tool is used) for your application deployment
+    deploy and run your application using previously created module or
+    recipe.
+3. Set up basic monitoring system it should monitor and keep trends of
+    basic server parameters (CPU, RAM, disk data).
+4. Set up a web server and a show a simple HTML web page or monitoring
+    system’s web UI. Expose the port it listens to the VM’s host
+    machine, so it would be accessible from it.
+5. Set up another virtual host for the web server to listen on another
+    port besides the one set up earlier. Bonus points if you set up SSL
+    certificate for this port. Self-signed certificate will do. Expose
+    this port to host as well.
+6. Deploy a simple application (e.g. JVM) that listens on a local port
+    for requests. It should be deployable and runnable with a single
+    command from command line. It should expose single application
+    metric for monitoring - (e.g. requests/per sec, load, used
+    connection count etc.) - any parameter that will grow when
+    application is put under load.
+7. Add monitoring to the application metric. Set up thresholds that
+    would trigger an alarm in the monitoring system.
+8. Create a stress test for the application that would change the
+    reported metric value when the test is launched.
+9. Set up the web server to act as a reverse proxy to your application.
+    You should use the port set up in task #5.

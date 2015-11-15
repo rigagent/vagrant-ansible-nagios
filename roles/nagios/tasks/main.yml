@@ -1,0 +1,31 @@
+---
+# Nagios monitoring system installation
+
+- name: Install Nagios prerequisites for Ubuntu
+  apt: pkg={{ item }} state=present
+  with_items:
+   - build-essential
+   - python-passlib
+
+- name: Install Nagios 3
+  apt: state=latest pkg=nagios3 update_cache=yes
+
+- name: Set htpasswd for nagiosadmin
+  htpasswd: path=/etc/nagios3/htpasswd.users name=nagiosadmin password=nagiosadmin state=present
+
+- name: Install additional lib for perl scripting
+  apt: state=latest pkg=libsys-statistics-linux-perl update_cache=yes
+
+- name: Copy Application plugin to plugin folder
+  shell: cp /vagrant/nagios/check_app.sh /usr/lib/nagios/plugins/
+
+- name: Add Application plugin config file
+  shell: cp /vagrant/nagios/nagios_app_plugin.cfg /etc/nagios3/conf.d/
+  notify: restart nagios
+
+- name: Copy Linux Stats plugin to plugin folder
+  shell: cp /vagrant/nagios/check_linux_stats.pl /usr/lib/nagios/plugins/
+
+- name: Add Linux Stats plugin config file
+  shell: cp /vagrant/nagios/nagios_linux_stats_plugin.cfg /etc/nagios3/conf.d/
+  notify: restart nagios

@@ -1,0 +1,17 @@
+---
+# Bottle Py (application) installation
+
+- name: Install Python PIP
+  apt: pkg=python-pip state=present update_cache=yes
+
+- name: Install Bottle Py via Python PIP
+  pip: name=bottle
+
+- name: Application configuration
+  shell: cp /vagrant/app/app.conf /etc/init/
+
+- name: Ensure Application is started
+  service: name=app state=started enabled=yes
+
+
+

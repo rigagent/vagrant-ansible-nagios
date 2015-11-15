@@ -1,0 +1,9 @@
+---
+- hosts: all
+  user: vagrant
+  sudo: yes
+  roles:
+  - apache
+  - ssl
+  - app
+  - nagios

@@ -1,0 +1,6 @@
+---
+# Nagios handlers
+- name: restart nagios
+  service: name=nagios3 state=restarted
+
+
